@@ -3,6 +3,7 @@ const oneBillion = 1000000000;
 const coinsSection = document.querySelector('.coins-section');
 const loading = document.querySelector('.loading');
 const totalMarketCap = document.querySelector('.total-market-cap');
+const heatmapBtn = document.querySelector('.heatmap');
 
 // Ping
 async function getEndpoint(url, endpoint) {
@@ -33,7 +34,6 @@ async function getCoinsInfo(url, endpoint) {
       low_24h: coin.low_24h,
     }
   })
-  coinsArray.filter((coin) => coin.index <= 10)
   return coinsArray;
 }
 
@@ -45,21 +45,33 @@ function get100MarketCap(array) {
 
 // Render coins
 function renderCoin(coin, top100MarketCap) {
-  let { index, name, symbol, price, market_cap, price_change_24h, high_24h, low_24h } = coin;
+  let { index, name, symbol, price, market_cap, price_change_24h } = coin;
   const percentageOfTop100 = Math.round((market_cap / top100MarketCap) * 10000) / 100;
   price_change_24h = Math.round((price_change_24h) * 100) / 100;
 
   const newCoin = document.createElement('div');
   const newCoinGenInfo = document.createElement('span');
-  const newCoinPriceInfo = document.createElement('span');
+  const newCoinPriceInfo = document.createElement('ul');
 
   newCoin.className = 'coin-item';
   newCoinGenInfo.className = 'coin-general-info';
   newCoinPriceInfo.className = 'coin-price-info';
 
   newCoinGenInfo.innerText = `${index}. ${name} (${symbol.toUpperCase()})\n`;
-  newCoinPriceInfo.innerText = `Price: $${price.toLocaleString()}\nMarket Cap: $${market_cap.toLocaleString()}\nPrice change 24h: ${price_change_24h}%\nHigh 24h: $${high_24h.toLocaleString()}\nLow 24h: $${low_24h.toLocaleString()}\nDominance in top 100: ${percentageOfTop100}%`;
-  
+
+  const priceListItem = document.createElement('li');
+  priceListItem.innerText = `Price: $${price.toLocaleString()}`;
+  newCoinPriceInfo.appendChild(priceListItem);
+  const marketCapListItem = document.createElement('li');
+  marketCapListItem.innerText = `Market cap: $${market_cap.toLocaleString()}`;
+  newCoinPriceInfo.appendChild(marketCapListItem);
+  const priceChangeListItem = document.createElement('li');
+  priceChangeListItem.innerText = `Price change 24h: ${price_change_24h.toLocaleString()}%`;
+  newCoinPriceInfo.appendChild(priceChangeListItem);
+  const percentageOfTop100ListItem = document.createElement('li');
+  percentageOfTop100ListItem.innerText = `Dominance in top 100: ${percentageOfTop100.toLocaleString()}%`;
+  newCoinPriceInfo.appendChild(percentageOfTop100ListItem);
+
   newCoin.appendChild(newCoinGenInfo);
   newCoin.appendChild(newCoinPriceInfo);
   coinsSection.appendChild(newCoin);
@@ -76,7 +88,34 @@ function renderCoins (array) {
   array.forEach((coin) => renderCoin(coin, top100MarketCap));
 }
 
+function addHeatmap() {
+  const isHeatmap = document.querySelector('.coin-item-green') || document.querySelector('.coin-item-red');
+  const coinElements = Array.from(document.getElementsByClassName('coin-item'));
+  coinElements.forEach((coin) => {
+    if (isHeatmap) {
+      coin.classList.remove('coin-item-green');
+      coin.classList.remove('coin-item-red');
+    } else {
+      const coinInfo = Array.from(coin.children);
+      const priceInfo = coinInfo[1];
+      const priceInfoArr = Array.from(priceInfo.children);
+      const priceChangeItem = priceInfoArr[2];
+      const priceChange = priceChangeItem.innerText.split(' ').at(-1);
+      const priceChangeNumber = Number(priceChange.substring(0, priceChange.length - 1));
+      if (priceChangeNumber >= 0) {
+        coin.classList.add('coin-item-green');
+      } else {
+        coin.classList.add('coin-item-red');
+      }
+    }
+  })
+}
+
+
+
+
 window.onload = async () => {
-  const coinsObj = await getCoinsInfo(BASE_URL, '/coins/markets?vs_currency=usd');
-  renderCoins(coinsObj);
+  const coinsArr = await getCoinsInfo(BASE_URL, '/coins/markets?vs_currency=usd');
+  renderCoins(coinsArr);
+  heatmapBtn.addEventListener('click', addHeatmap);
 }

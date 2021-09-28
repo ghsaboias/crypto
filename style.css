@@ -14,6 +14,19 @@ header {
   margin: 10px 0;
 }
 
+.heatmap {
+  background-color: white;
+  color: black;
+  border: 2px solid rgb(10, 11, 12);
+  margin: 10px 0;
+  padding: 7px;
+  cursor: pointer;
+}
+
+.heatmap:hover {
+  background-color: rgb(230, 231, 232);
+}
+
 .total-market-cap {
   text-align: center;
   margin-bottom: 10px;
@@ -30,12 +43,9 @@ header {
 }
 
 .coin-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   margin: 2px;
   padding: 10px;
-  background-color: rgb(54, 44, 31);
+  background-color: rgb(10, 11, 12);
   color: rgb(220, 220, 220);
   width: 24%;
   min-width: 24%;
@@ -44,8 +54,19 @@ header {
   border-radius: 10px;
 }
 
-.coin-price-info {
-  display: flex;
-  height: 120px;
-  align-items: center;
+.coin-item li {
+  list-style: none;
+  margin: 5px 0;
+}
+
+.coin-item-green {
+  background-color: rgb(15, 49, 7);
+}
+
+.coin-item-red {
+  background-color: rgb(85, 10, 16);
+}
+
+.coin-general-info {
+  font-weight: 800;
 }
