@@ -26,8 +26,7 @@ async function getCoinsInfo(url, endpoint) {
       market_cap: coin.market_cap,
     }
   })
-  console.log(coinsArray)
-  coinsArray.filter((coin) => coin.market_cap >= oneBillion)
+  coinsArray.filter((coin) => coin.index <= 100)
   return coinsArray;
 }
 
