@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "coingecko-api": "^1.0.10"
+    "coingecko-api": "^1.0.10",
+    "node-fetch": "^2.6.1"
   }
 }
