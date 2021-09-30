@@ -6,7 +6,7 @@
 }
 
 body {
-  margin-bottom: 25px;
+  margin-bottom: 75px;
 }
 
 header {
@@ -31,34 +31,40 @@ header {
 .items-container {
   display: flex;
   flex-wrap: wrap;
-  width: 60%;
-  margin: 0 auto;
+  width: 80%;
+  margin: auto;
   justify-content: center;
 }
 
-.item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+a {
+  text-decoration: none;
+  margin: 10px;
   border: 1px solid rgb(50, 50, 50);
   border-radius: 10%;
   box-shadow: 1px 1px rgb(200, 200, 200);
   background-color: rgb(150, 200, 120);
-  line-height: 200%;
   width: 20%;
+}
+
+a .item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 225%;
   padding: 5px 0;
-  margin: 20px 10px 0;
+  color: rgb(10, 10, 10);
 }
 
 footer {
   color: rgb(255, 255, 255);
   background-color: rgb(120, 111, 111);
-  height: 25px;
+  font-size: x-large;
+  height: 75px;
   position: fixed;
   bottom: 0px;
   left: 0px;
   right: 0px;;
   margin-bottom: 0px;
   text-align: center;
-  list-style: 25px;
+  line-height: 75px;
 }
