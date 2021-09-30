@@ -27,8 +27,9 @@ function parseResponse(responseArr, isFilter) {
       'rank': item.rank,
       'daily_volume': Math.round(item.volumeUsd * 100) / 100,
       'percent_total_volume': Math.round(item.percentTotalVolume * 100) / 100,
-      'socket': item.socket,
       'updated': new Date(item.updated).toLocaleTimeString("en-US"),
+      'socket': item.socket,
+      'website': item.exchangeUrl,
     }
     return mappedItem;
   })
@@ -49,8 +50,9 @@ function prettyResponse(arrWithNumbers) {
       'rank': item.rank, 
       'daily_volume': `$${item.daily_volume.toLocaleString()}`,
       'percent_total_volume': item.percent_total_volume,
-      'socket': item.socket,
       'updated': item.updated,
+      'socket': item.socket,
+      'website': item.website,
     }
     return prettyItem;
   })
