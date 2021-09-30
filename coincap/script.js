@@ -1,10 +1,62 @@
-const WebSocket = require('ws');
+const fetch = require('node-fetch')
 
-const tradeWs = new WebSocket('wss://ws.coincap.io/trades/binance')
+const BASE_URL = 'api.coincap.io/v2/';
 
-tradeWs.onmessage = async function (msg) {
-  const coin_data = await JSON.parse(msg.data);
-  if (coin_data.base === 'bitcoin') {
-    console.log(coin_data)
-  }
+// Getting data
+async function getData(endpoint, isFilter) {
+  const address = `https://${BASE_URL}${endpoint}`;
+  fetch(address, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept-Encoding': 'gzip',
+      'Authorization': 'Bearer XXXX',
+    },
+  })
+  .then((response) => response.json())
+  .then((responseJSON) => parseResponse(responseJSON.data, isFilter))
+  .catch((err) => console.log(err));
 }
+
+// Parsing response
+function parseResponse(responseArr, isFilter) {
+  const arrWithNumbers = responseArr.map((item) => {
+    // Converting Unix to regular time: https://stackoverflow.com/a/50255425
+    const mappedItem = {
+      'name': item.name,
+      'rank': item.rank,
+      'daily_volume': Math.round(item.volumeUsd * 100) / 100,
+      'percent_total_volume': Math.round(item.percentTotalVolume * 100) / 100,
+      'socket': item.socket,
+      'updated': new Date(item.updated).toLocaleTimeString("en-US"),
+    }
+    return mappedItem;
+  })
+  if (isFilter) {
+    const filteredArr = arrWithNumbers.filter((item) => item.rank <= 10);
+    prettyResponse(filteredArr);
+    return filteredArr;
+  }
+  prettyResponse(arrWithNumbers);
+  return arrWithNumbers;
+}
+
+// Prettying response
+function prettyResponse(arrWithNumbers) {
+  const prettyArr = arrWithNumbers.map((item) => {
+    const prettyItem = {
+      'name': item.name,
+      'rank': item.rank, 
+      'daily_volume': `$${item.daily_volume.toLocaleString()}`,
+      'percent_total_volume': item.percent_total_volume,
+      'socket': item.socket,
+      'updated': item.updated,
+    }
+    return prettyItem;
+  })
+  console.log(prettyArr)
+  return prettyArr;
+}
+
+getData('exchanges', true)
+
