@@ -7,7 +7,7 @@ module.exports = web3 => {
   const contract = UNISWAP_ROUTER.toLowerCase();
 
   return async function checkLastBlock() {
-    let block = await web3.eth.getBlock(13774359);
+    let block = await web3.eth.getBlock('latest');
     console.log(`Searching for block ${ block.number }`);
     if (block && block.transactions) {
       for (let txHash of block.transactions) {
