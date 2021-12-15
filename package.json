@@ -5,6 +5,7 @@
     "eslint-plugin-import": "^2.25.3"
   },
   "dependencies": {
+    "abi-decoder": "^2.4.0",
     "web3": "^1.6.1"
   }
 }
