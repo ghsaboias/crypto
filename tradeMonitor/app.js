@@ -74,7 +74,7 @@ async function checkLastBlock() {
         const ethValue = web3.utils.fromWei(value);
         const decodedData = abiDecoder.decodeMethod(input);
         const { params } = decodedData;
-        console.log(params);
+        console.log(decodedData);
         const tokenValue = web3.utils.fromWei(params.filter((param) => param.name === 'amountOutMin')[0].value, 'Gwei');
 
         console.log(`traded ${ ethValue }ETH for ${ tokenValue } tokens`);
