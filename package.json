@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "abi-decoder": "^2.4.0",
     "coingecko-api": "^1.0.10",
     "moralis": "^0.0.100",
     "node-fetch": "^2.6.5",
