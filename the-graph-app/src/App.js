@@ -17,6 +17,7 @@ const query = `
       }
       amount0
       amount1
+      amountUSD
       sender
       transaction {
         id
