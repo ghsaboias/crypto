@@ -4,7 +4,7 @@ function Swaps({ swaps }) {
   function renderSwap() {
     console.log(swaps);
     const swapElement = swaps.map((swap, i) => {
-      let { amount0, amount1, amountUSD, token0, token1, sender, transaction } = swap;
+      let { amount0, amount1, amountUSD, token0, token1, transaction } = swap;
       const { symbol: symbol0 } = token0;
       const { symbol: symbol1 } = token1;
       const explorerAddress = `https://etherscan.io/tx/${transaction.id}`;
@@ -30,22 +30,16 @@ function Swaps({ swaps }) {
 
       return (
         <div className="swap" key={ i }>
-          <p>{ `From: ${fromCoin.symbol}` }</p>
-          <p>{ `To: ${toCoin.symbol}` }</p>
+          <p>{ `From: ${fromCoin.amount.toLocaleString()} ${fromCoin.symbol}` }</p>
+          <p>{ `To: ${toCoin.amount.toLocaleString()} ${toCoin.symbol}` }</p>
           <p>{ `USD amount: ${amountUSD.toLocaleString()} USD` }</p>
-          <p>{ `From amount: ${fromCoin.amount} ${fromCoin.symbol}` }</p>
-          <p>{ `To amount: ${toCoin.amount} ${toCoin.symbol}` }</p>
-          <p>{ `Sender: ${sender}` }</p>
-          <p>
-            { `Transaction: ` }
-            <a
-              href={ explorerAddress }
-              target="_blank"
-              rel="noreferrer"
-            >
-              { explorerAddress }
-            </a>
-          </p>
+          <a
+            href={ explorerAddress }
+            target="_blank"
+            rel="noreferrer"
+          >
+            See transaction on etherscan
+          </a>
         </div>
       )
     })
@@ -53,7 +47,7 @@ function Swaps({ swaps }) {
   }
 
   return (
-    <div className="swap">
+    <div className="swaps">
       { swaps.length ? (
         renderSwap()
       ) : (

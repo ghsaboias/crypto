@@ -2,7 +2,7 @@ import './App.css';
 import { createClient } from 'urql'
 import { useEffect, useState } from 'react'
 import Swaps from './components/Swaps';
-
+import Header from './components/Header';
 
 const APIURL = "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3";
 
@@ -18,7 +18,6 @@ const query = `
       amount0
       amount1
       amountUSD
-      sender
       transaction {
         id
       }
@@ -50,6 +49,7 @@ function App() {
 
   return (
     <div className="App">
+      <Header />
       <Swaps
         swaps={ swaps }
       />
