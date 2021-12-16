@@ -1,6 +1,7 @@
 import './App.css';
 import { createClient } from 'urql'
 import { useEffect, useState } from 'react'
+import Swap from './components/Swap';
 
 
 const APIURL = "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2";
@@ -61,7 +62,6 @@ function App() {
   }, []);
 
   function adjustFormat(swaps) {
-    console.log(swaps);
     swaps.forEach((swap, i) => {
       const {
         amount0In,
@@ -77,8 +77,8 @@ function App() {
       const { symbol: symbol1 } = token1;
       setSymbols({
         ...symbols,
-        [`symbol${ i - 99}`]: symbol0,
-        [`symbol${ i - 98 }`]: symbol1,
+        symbol0,
+        symbol1,
       });
     });
   }
@@ -96,7 +96,10 @@ function App() {
     <div className="App">
       <span>{ symbols.symbol0 }</span>
       <span>{ symbols.symbol1 }</span>
-      <Swap />
+      <Swap
+        swaps={ swaps }
+        symbols={ symbols }
+      />
     </div>
   );
 }
