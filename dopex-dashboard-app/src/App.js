@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import fetchEndpoint from './services/fetchEndpoint';
 import Tvl from './components/Tvl';
-import DopexPrice from './components/DopexPrice';
 import './App.css';
+import DpxTokenInfo from './components/DpxTokenInfo';
+import RebateDpxTokenInfo from './components/RebateDpxTokenInfo';
 
 const DPX_PRICE_ENDPOINT = 'https://api.dopex.io/api/v1/dpx/price';
 const DPX_SUPPLY_ENDPOINT = 'https://api.dopex.io/api/v1/dpx/supply';
@@ -20,6 +21,9 @@ function App() {
   const [dpxPrice, setDpxPrice] = useState({});
   const [dpxSupply, setDpxSupply] = useState({});
   const [dpxMarketCap, setDpxMarketCap] = useState(0);
+  const [rebateDpxPrice, setRebateDpxPrice] = useState({});
+  const [rebateDpxSupply, setRebateDpxSupply] = useState({});
+  const [rebateDpxMarketCap, setRebateDpxMarketCap] = useState(0);
 
   async function fetchTvl() {
     // Source: https://stackoverflow.com/a/43881141
@@ -43,7 +47,23 @@ function App() {
     const fetchedDpxMarketCap = await fetchEndpoint(`https://quiet-wildwood-23140.herokuapp.com/${DPX_MARKETCAP_ENDPOINT}`);
     const { marketCap } = fetchedDpxMarketCap;
     setDpxMarketCap(marketCap);
+  }
 
+  async function fetchRebateDpxPrice() {
+    const fetchedRebateDpxPrice = await fetchEndpoint(`https://quiet-wildwood-23140.herokuapp.com/${RDPX_PRICE_ENDPOINT}`);
+    const { price } = fetchedRebateDpxPrice;
+    setRebateDpxPrice(price);
+  }
+
+  async function fetchRebateDpxSupply() {
+    const fetchedRebateDpxSupply = await fetchEndpoint(`https://quiet-wildwood-23140.herokuapp.com/${RDPX_SUPPLY_ENDPOINT}`);
+    setRebateDpxSupply(fetchedRebateDpxSupply);
+  }
+
+  async function fetchRebateDpxMarketCap() {
+    const fetchedRebateDpxMarketCap = await fetchEndpoint(`https://quiet-wildwood-23140.herokuapp.com/${RPDX_MARKETCAP_ENDPOINT}`);
+    const { marketCap } = fetchedRebateDpxMarketCap;
+    setRebateDpxMarketCap(marketCap);
   }
 
   useEffect(() => {
@@ -51,16 +71,24 @@ function App() {
     fetchDpxPrice();
     fetchDpxSupply();
     fetchDpxMarketCap();
+    fetchRebateDpxPrice();
+    fetchRebateDpxSupply();
+    fetchRebateDpxMarketCap();
   }, [])
   
   return (
     <div className="App">
       <h1>Dopex Dashboard</h1>
       <Tvl tvl={ Number(appTvl) } />
-      <DopexPrice
+      <DpxTokenInfo
         price={ dpxPrice }
         supply={ dpxSupply }
         marketCap={ dpxMarketCap }
+      />
+      <RebateDpxTokenInfo
+        price={ rebateDpxPrice }
+        supply={ rebateDpxSupply }
+        marketCap={ rebateDpxMarketCap }
       />
     </div>
   );
