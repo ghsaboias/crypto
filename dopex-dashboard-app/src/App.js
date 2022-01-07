@@ -4,6 +4,7 @@ import Tvl from './components/Tvl';
 import './App.css';
 import DpxTokenInfo from './components/DpxTokenInfo';
 import RebateDpxTokenInfo from './components/RebateDpxTokenInfo';
+import Farms from './components/Farms';
 
 const DPX_PRICE_ENDPOINT = 'https://api.dopex.io/api/v1/dpx/price';
 const DPX_SUPPLY_ENDPOINT = 'https://api.dopex.io/api/v1/dpx/supply';
@@ -24,6 +25,7 @@ function App() {
   const [rebateDpxPrice, setRebateDpxPrice] = useState({});
   const [rebateDpxSupply, setRebateDpxSupply] = useState({});
   const [rebateDpxMarketCap, setRebateDpxMarketCap] = useState(0);
+  const [farmsTvl, setFarmsTvl] = useState(0);
 
   async function fetchTvl() {
     // Source: https://stackoverflow.com/a/43881141
@@ -66,6 +68,12 @@ function App() {
     setRebateDpxMarketCap(marketCap);
   }
 
+  async function fetchFarmsTvl() {
+    const fetchedFarmsTvl = await fetchEndpoint(`https://quiet-wildwood-23140.herokuapp.com/${FARMS_TVL_ENDPOINT}`);
+    const { tvl } = fetchedFarmsTvl;
+    setFarmsTvl(tvl);
+  }
+
   useEffect(() => {
     fetchTvl();
     fetchDpxPrice();
@@ -74,21 +82,29 @@ function App() {
     fetchRebateDpxPrice();
     fetchRebateDpxSupply();
     fetchRebateDpxMarketCap();
+    fetchFarmsTvl();
   }, [])
   
   return (
     <div className="App">
-      <h1>Dopex Dashboard</h1>
+      <header>
+        <h1>Dopex Dashboard</h1>
+      </header>
       <Tvl tvl={ Number(appTvl) } />
-      <DpxTokenInfo
-        price={ dpxPrice }
-        supply={ dpxSupply }
-        marketCap={ dpxMarketCap }
-      />
-      <RebateDpxTokenInfo
-        price={ rebateDpxPrice }
-        supply={ rebateDpxSupply }
-        marketCap={ rebateDpxMarketCap }
+      <div className="tokens-info-container">
+        <DpxTokenInfo
+          price={ dpxPrice }
+          supply={ dpxSupply }
+          marketCap={ dpxMarketCap }
+        />
+        <RebateDpxTokenInfo
+          price={ rebateDpxPrice }
+          supply={ rebateDpxSupply }
+          marketCap={ rebateDpxMarketCap }
+        />
+      </div>
+      <Farms
+        tvl={ farmsTvl }
       />
     </div>
   );

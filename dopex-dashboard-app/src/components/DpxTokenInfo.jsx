@@ -11,7 +11,7 @@ function DpxTokenInfo({ price, supply, marketCap }) {
   const formattedMarketCap = (Math.round((marketCap + Number.EPSILON) * 100) / 100).toLocaleString();
 
   return (
-    <div className="dpx-price-container">
+    <div className="token-info-container">
       <h2>DPX</h2>
       <p>
         <b>Market cap: </b>{ marketCap ? `$${formattedMarketCap}` : 'Loading...'}

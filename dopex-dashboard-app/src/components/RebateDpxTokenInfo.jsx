@@ -10,7 +10,7 @@ function RebateDpxTokenInfo({ price, supply, marketCap }) {
   const formattedMarketCap = (Math.round((marketCap + Number.EPSILON) * 100) / 100).toLocaleString();
 
   return (
-    <div className="rdpx-price-container">
+    <div className="token-info-container">
       <h2>rDPX</h2>
       <p>
         <b>Market cap: </b>{ marketCap ? `$${formattedMarketCap}` : 'Loading...'}
