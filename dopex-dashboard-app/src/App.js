@@ -13,9 +13,8 @@ const RDPX_PRICE_ENDPOINT = 'https://api.dopex.io/api/v1/rdpx/price';
 const RDPX_SUPPLY_ENDPOINT = 'https://api.dopex.io/api/v1/rdpx/supply';
 const RPDX_MARKETCAP_ENDPOINT = 'https://api.dopex.io/api/v1/rdpx/market-cap';
 const FARMS_TVL_ENDPOINT = 'https://api.dopex.io/api/v1/farms/tvl';
-const FARMS_TVL_POOLS_ENDPOINT = 'https://api.dopex.io/api/v1/farms/tvl?pool=';
 const TVL_ENDPOINT = 'https://api.dopex.io/api/v1/tvl';
-const TVL_CONTRACT_ENDPOINT = 'https://api.dopex.io/api/v1/tvl?include=dpx-farm,rdpx-farm,dpx-weth-farm,rdpx-weth-farm,dpx-ssov,rdpx-ssov';
+const TVL_CONTRACT_ENDPOINT = 'https://api.dopex.io/api/v1/tvl?include=';
 
 function App() {
   const [appTvl, setAppTvl] = useState(0);
@@ -71,7 +70,29 @@ function App() {
   async function fetchFarmsTvl() {
     const fetchedFarmsTvl = await fetchEndpoint(`https://quiet-wildwood-23140.herokuapp.com/${FARMS_TVL_ENDPOINT}`);
     const { tvl } = fetchedFarmsTvl;
-    setFarmsTvl(tvl);
+    setFarmsTvl(Number(tvl));
+  }
+
+  async function fetchTvlByContract() {
+    const { tvl: dpxFarmTvl } = await fetchEndpoint(`https://quiet-wildwood-23140.herokuapp.com/${TVL_CONTRACT_ENDPOINT}`, 'dpx-farm');
+    const { tvl: rebateDpxFarmTvl } = await fetchEndpoint(`https://quiet-wildwood-23140.herokuapp.com/${TVL_CONTRACT_ENDPOINT}`, 'rdpx-farm');
+    const { tvl: dpxWethFarmTvl } = await fetchEndpoint(`https://quiet-wildwood-23140.herokuapp.com/${TVL_CONTRACT_ENDPOINT}`, 'dpx-weth-farm');
+    const { tvl: rebateDpxWethFarmTvl } = await fetchEndpoint(`https://quiet-wildwood-23140.herokuapp.com/${TVL_CONTRACT_ENDPOINT}`, 'rdpx-weth-farm');
+    const { tvl: dpxSsovTvl } = await fetchEndpoint(`https://quiet-wildwood-23140.herokuapp.com/${TVL_CONTRACT_ENDPOINT}`, 'dpx-ssov');
+    const { tvl: rebateDpxSsovTvl } = await fetchEndpoint(`https://quiet-wildwood-23140.herokuapp.com/${TVL_CONTRACT_ENDPOINT}`, 'rdpx-ssov');
+    const { tvl: wethSsovTvl } = await fetchEndpoint(`https://quiet-wildwood-23140.herokuapp.com/${TVL_CONTRACT_ENDPOINT}`, 'eth-ssov');
+    const { tvl: gohmSsovTvl } = await fetchEndpoint(`https://quiet-wildwood-23140.herokuapp.com/${TVL_CONTRACT_ENDPOINT}`, 'gohm-ssov');
+    const tvlByContract = {
+      dpxFarmTvl,
+      rebateDpxFarmTvl,
+      dpxWethFarmTvl,
+      rebateDpxWethFarmTvl,
+      dpxSsovTvl,
+      rebateDpxSsovTvl,
+      wethSsovTvl,
+      gohmSsovTvl,
+    }
+    console.log(tvlByContract);
   }
 
   useEffect(() => {
@@ -83,6 +104,7 @@ function App() {
     fetchRebateDpxSupply();
     fetchRebateDpxMarketCap();
     fetchFarmsTvl();
+    fetchTvlByContract();
   }, [])
   
   return (
@@ -104,7 +126,7 @@ function App() {
         />
       </div>
       <Farms
-        tvl={ farmsTvl }
+        tvl={ Number(farmsTvl) }
       />
     </div>
   );

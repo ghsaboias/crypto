@@ -37,6 +37,10 @@ header h1 {
 }
 
 .farms-container {
+  text-align: center;
+}
+
+.farms-data-container {
   display: flex;
   justify-content: space-around;
   margin: 0 auto;
