@@ -5,7 +5,7 @@ function Tvl({ tvl }) {
   return (
     <div className="tvl-container">
       <span>
-        <b>TVL:</b> {tvl ? `$${formattedTvl}` : 'Loading...'}
+        <b>TVL</b> {tvl ? `$${formattedTvl}` : 'Loading...'}
       </span>
     </div>
   )
