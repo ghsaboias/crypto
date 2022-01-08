@@ -5,6 +5,7 @@ import './App.css';
 import Farm from './components/Farm';
 import TokenInfo from './components/TokenInfo';
 
+// REFACTOR: CREATE DPX OBJ, rDPX OBJ, OPTIMIZE CONTRACT ENDPOINT CALLS
 function App() {
   const DPX_PRICE_ENDPOINT = 'https://api.dopex.io/api/v1/dpx/price';
   const DPX_SUPPLY_ENDPOINT = 'https://api.dopex.io/api/v1/dpx/supply';
