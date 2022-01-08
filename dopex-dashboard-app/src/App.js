@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import fetchEndpoint from './services/fetchEndpoint';
 import Tvl from './components/Tvl';
 import './App.css';
-import DpxTokenInfo from './components/DpxTokenInfo';
-import RebateDpxTokenInfo from './components/RebateDpxTokenInfo';
-import Farms from './components/Farms';
+import Farm from './components/Farm';
+import TokenInfo from './components/TokenInfo';
 
 function App() {
   const DPX_PRICE_ENDPOINT = 'https://api.dopex.io/api/v1/dpx/price';
@@ -84,6 +83,7 @@ function App() {
     const { tvl: dpxSsovTvl } = await fetchEndpoint(`${HEROKU_URL}${TVL_CONTRACT_ENDPOINT}`, 'dpx-ssov');
     const { tvl: rebateDpxSsovTvl } = await fetchEndpoint(`${HEROKU_URL}${TVL_CONTRACT_ENDPOINT}`, 'rdpx-ssov');
     const { tvl: gohmSsovTvl } = await fetchEndpoint(`${HEROKU_URL}${TVL_CONTRACT_ENDPOINT}`, 'gohm-ssov');
+
     const tvlByContract = {
       dpxFarmTvl: Number(dpxFarmTvl),
       rebateDpxFarmTvl: Number(rebateDpxFarmTvl),
@@ -96,24 +96,24 @@ function App() {
     setTvlByContract(tvlByContract);
   }
 
-  function fetchData() {
-    fetchTvl();
-    fetchDpxPrice();
-    fetchDpxSupply();
-    fetchDpxMarketCap();
-    fetchRebateDpxPrice();
-    fetchRebateDpxSupply();
-    fetchRebateDpxMarketCap();
-    fetchFarmsTvl();
-    fetchTvlByContract();
-  }
-
   // Source: https://stackoverflow.com/a/70506513
   useEffect(() => {
+    function fetchData() {
+      fetchTvl();
+      fetchDpxPrice();
+      fetchDpxSupply();
+      fetchDpxMarketCap();
+      fetchRebateDpxPrice();
+      fetchRebateDpxSupply();
+      fetchRebateDpxMarketCap();
+      fetchFarmsTvl();
+      fetchTvlByContract();
+      console.log('called fetchData');
+    }
     fetchData();
     const intervalCall = setInterval(() => {
       fetchData();
-    }, 10000);
+    }, 5000);
     return () => {
       // clean up
       clearInterval(intervalCall);
@@ -127,21 +127,32 @@ function App() {
       </header>
       <Tvl tvl={ Number(appTvl) } />
       <div className="tokens-info-container">
-        <DpxTokenInfo
+        <TokenInfo
+          token="dpx"
           price={ dpxPrice }
           supply={ dpxSupply }
           marketCap={ dpxMarketCap }
         />
-        <RebateDpxTokenInfo
+        <TokenInfo
+          token="rdpx"
           price={ rebateDpxPrice }
           supply={ rebateDpxSupply }
           marketCap={ rebateDpxMarketCap }
         />
       </div>
-      <Farms
-        tvl={ Number(farmsTvl) }
-        tvlByContract={ tvlByContract }
-      />
+      <div className="farms-container">
+        <h2>Farms</h2>
+        <Farm
+          token="dpx"
+          tvl={ Number(farmsTvl) }
+          tvlByContract={ tvlByContract }
+        />
+        <Farm
+          token="rdpx"
+          tvl={ Number(farmsTvl) }
+          tvlByContract={ tvlByContract }
+        />
+      </div>
     </div>
   );
 }

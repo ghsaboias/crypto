@@ -1,8 +1,11 @@
 import React from "react";
 
-function RebateDpxTokenInfo({ price, supply, marketCap }) {
+function TokenInfo({ token, price, supply, marketCap }) {
+  const symbol = token === 'dpx' ? 'DPX' : 'rDPX';
+
   const { usd: usdPrice, eth: ethPrice } = price;
   const { totalSupply, circulatingSupply } = supply;
+
   const formattedUsd = (Math.round((usdPrice + Number.EPSILON) * 100) / 100).toLocaleString();
   const formattedEth = (Math.round((ethPrice + Number.EPSILON) * 100) / 100).toLocaleString();
   const formattedTotalSupply = (Math.round((totalSupply + Number.EPSILON) * 100) / 100).toLocaleString();
@@ -11,7 +14,7 @@ function RebateDpxTokenInfo({ price, supply, marketCap }) {
 
   return (
     <div className="token-info-container">
-      <h2>rDPX</h2>
+      <h2>{ symbol }</h2>
       <p>
         <b>Market cap: </b>{ marketCap ? `$${formattedMarketCap}` : 'Loading...'}
       </p>
@@ -31,4 +34,4 @@ function RebateDpxTokenInfo({ price, supply, marketCap }) {
   )
 }
 
-export default RebateDpxTokenInfo;
+export default TokenInfo;
