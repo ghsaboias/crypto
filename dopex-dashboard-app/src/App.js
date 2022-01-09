@@ -7,6 +7,8 @@ import TokenInfo from './components/TokenInfo';
 
 // REFACTOR: CREATE DPX OBJ, rDPX OBJ, OPTIMIZE CONTRACT ENDPOINT CALLS
 function App() {
+  const HEROKU_URL = 'https://quiet-wildwood-23140.herokuapp.com/';
+  
   const DPX_PRICE_ENDPOINT = 'https://api.dopex.io/api/v1/dpx/price';
   const DPX_SUPPLY_ENDPOINT = 'https://api.dopex.io/api/v1/dpx/supply';
   const DPX_MARKETCAP_ENDPOINT = 'https://api.dopex.io/api/v1/dpx/market-cap';
@@ -16,8 +18,6 @@ function App() {
   const FARMS_TVL_ENDPOINT = 'https://api.dopex.io/api/v1/farms/tvl';
   const TVL_ENDPOINT = 'https://api.dopex.io/api/v1/tvl';
   const TVL_CONTRACT_ENDPOINT = 'https://api.dopex.io/api/v1/tvl?include=';
-  
-  const HEROKU_URL = 'https://quiet-wildwood-23140.herokuapp.com/';
 
   const [appTvl, setAppTvl] = useState(0);
   const [dpxPrice, setDpxPrice] = useState({});
@@ -109,7 +109,7 @@ function App() {
       fetchRebateDpxMarketCap();
       fetchFarmsTvl();
       fetchTvlByContract();
-      console.log('called fetchData');
+      // console.log('called fetchData');
     }
     fetchData();
     const intervalCall = setInterval(() => {
@@ -126,7 +126,10 @@ function App() {
       <header>
         <h1>Dopex Dashboard</h1>
       </header>
-      <Tvl tvl={ Number(appTvl) } />
+      <Tvl
+        tvl={ Number(appTvl) }
+        type="total"
+      />
       <div className="tokens-info-container">
         <TokenInfo
           token="dpx"
@@ -142,15 +145,16 @@ function App() {
         />
       </div>
       <div className="farms-container">
-        <h2>Farms</h2>
+        <Tvl
+          tvl={ Number(farmsTvl) }
+          type="farms"
+        />
         <Farm
           token="dpx"
-          tvl={ Number(farmsTvl) }
           tvlByContract={ tvlByContract }
         />
         <Farm
           token="rdpx"
-          tvl={ Number(farmsTvl) }
           tvlByContract={ tvlByContract }
         />
       </div>
