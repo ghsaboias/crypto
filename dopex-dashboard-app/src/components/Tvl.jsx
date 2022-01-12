@@ -1,7 +1,7 @@
 import React from "react";
 
 function Tvl({ tvl, type }) {
-  const title = type === 'farms' ? 'Farms' : '';
+  const title = type === 'farms' ? 'Farms' : 'SSOV';
 
   const formattedTvl = (Math.round((tvl + Number.EPSILON) * 100) / 100).toLocaleString();
   return (

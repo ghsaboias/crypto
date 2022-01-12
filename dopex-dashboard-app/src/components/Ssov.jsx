@@ -1,24 +1,17 @@
 import React from "react";
 
-function Ssov() {
+function Ssov({ token, tvlByContract }) {
+  const { dpxSsovTvl, rebateDpxSsovTvl, gohmSsovTvl } = tvlByContract;
+
+  const formattedDpxSsovTvl = (Math.round((dpxSsovTvl + Number.EPSILON) * 100) / 100).toLocaleString();
+  const formattedRebateDpxSsovTvl = (Math.round((rebateDpxSsovTvl + Number.EPSILON) * 100) / 100).toLocaleString();
+  const formattedGohmSsovTvl = (Math.round((gohmSsovTvl + Number.EPSILON) * 100) / 100).toLocaleString();
+
+  const isTvlByContractFetched = Object.keys(tvlByContract).length > 0;
+
   return (
-    <div className="ssov-main-container">
-      <h2>SSOV</h2>
-      <p>
-          <b>SSOV TVL: </b>{  }
-      </p>
-      <div className="ssov-data-container">
-        <div className="ssov">
-          <p>
-            <b>DPX SSOV: </b>{  }
-          </p>
-        </div>
-        <div className="ssov">
-          <p>
-            <b>rDPX SSOV: </b>{  }
-          </p>
-        </div>
-      </div>
+    <div className="ssov-container">
+      
     </div>
   )
 }

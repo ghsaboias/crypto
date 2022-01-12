@@ -4,6 +4,7 @@ import Tvl from './components/Tvl';
 import './App.css';
 import Farm from './components/Farm';
 import TokenInfo from './components/TokenInfo';
+import Ssov from './components/Ssov';
 
 // REFACTOR: CREATE DPX OBJ, rDPX OBJ, OPTIMIZE CONTRACT ENDPOINT CALLS
 function App() {
@@ -28,6 +29,7 @@ function App() {
   const [rebateDpxMarketCap, setRebateDpxMarketCap] = useState(0);
   const [farmsTvl, setFarmsTvl] = useState(0);
   const [tvlByContract, setTvlByContract] = useState({});
+  const [ssovTvl, setSsovTvl] = useState(0);
 
   async function fetchTvl() {
     // Source: https://stackoverflow.com/a/43881141
@@ -85,6 +87,8 @@ function App() {
     const { tvl: rebateDpxSsovTvl } = await fetchEndpoint(`${HEROKU_URL}${TVL_CONTRACT_ENDPOINT}`, 'rdpx-ssov');
     const { tvl: gohmSsovTvl } = await fetchEndpoint(`${HEROKU_URL}${TVL_CONTRACT_ENDPOINT}`, 'gohm-ssov');
 
+    const combinedSsovTvl = Number(dpxSsovTvl) + Number(rebateDpxSsovTvl) + Number(gohmSsovTvl);
+
     const tvlByContract = {
       dpxFarmTvl: Number(dpxFarmTvl),
       rebateDpxFarmTvl: Number(rebateDpxFarmTvl),
@@ -95,6 +99,7 @@ function App() {
       gohmSsovTvl,
     }
     setTvlByContract(tvlByContract);
+    setSsovTvl(combinedSsovTvl);
   }
 
   // Source: https://stackoverflow.com/a/70506513
@@ -155,6 +160,24 @@ function App() {
         />
         <Farm
           token="rdpx"
+          tvlByContract={ tvlByContract }
+        />
+      </div>
+      <div className="ssov-container">
+        <Tvl
+          tvl={ ssovTvl }
+          type="ssov"
+        />
+        <Ssov
+          token="dpx"
+          tvlByContract={ tvlByContract }
+        />
+        <Ssov
+          token="rdpx"
+          tvlByContract={ tvlByContract }
+        />
+        <Ssov
+          token="gohm"
           tvlByContract={ tvlByContract }
         />
       </div>
