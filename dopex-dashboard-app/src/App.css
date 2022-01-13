@@ -6,8 +6,8 @@
 
 header {
   background-color: rgb(125, 155, 175);
-  height: 10vh;
-  line-height: 10vh;
+  height: 7vh;
+  line-height: 7vh;
   text-align: center;
 }
 
@@ -18,15 +18,19 @@ header h1 {
 
 .tvl-container {
   font-size: x-large;
-  margin: 3vh auto;
+  margin: 1vh auto;
   text-align: center;
   width: 20vw;
+}
+
+.tvl-container h3 {
+  margin: 0 auto 2vh;
 }
 
 .tokens-info-container {
   display: flex;
   justify-content: space-around;
-  margin: 0 auto;
+  margin: 3vh auto 0;
   width: 75vw;
 }
 
@@ -38,9 +42,21 @@ header h1 {
 
 .farms-container {
   text-align: center;
+  margin-bottom: 4vh;
 }
 
 .farms-data-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 0 auto;
+  width: 75vw;
+}
+
+.ssov-container {
+  text-align: center;
+}
+
+.ssov-data-container {
   display: flex;
   justify-content: space-around;
   margin: 0 auto;
