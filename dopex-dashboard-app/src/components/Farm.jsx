@@ -1,7 +1,7 @@
 import React from "react";
 
 function Farm({ token, tvlByContract }) {
-  const [symbol, pair] = token === 'dpx' ? ['DPX', 'DPX/WETH'] : ['rDPX', 'rDPX/WETH'];
+  const pair = token === 'DPX' ? 'DPX/WETH' : 'rDPX/WETH';
 
   const { dpxFarmTvl, rebateDpxFarmTvl, dpxWethFarmTvl, rebateDpxWethFarmTvl } = tvlByContract;
   
@@ -12,20 +12,23 @@ function Farm({ token, tvlByContract }) {
 
   const isTvlByContractFetched = Object.keys(tvlByContract).length > 0;
 
-  const coinObj = token === 'dpx' ? ({
-    singleFarmTvl: formattedDpxFarmTvl,
-    poolFarmTvl: formattedDpxWethFarmTvl,
-  }) : ({
-    singleFarmTvl: formattedRebateDpxFarmTvl,
-    poolFarmTvl: formattedRebateDpxWethFarmTvl,
-  })
+  const tvlObj = {
+    DPX: {
+      singleFarmTvl: formattedDpxFarmTvl,
+      poolFarmTvl: formattedDpxWethFarmTvl,
+    },
+    rDPX: {
+      singleFarmTvl: formattedRebateDpxFarmTvl,
+      poolFarmTvl: formattedRebateDpxWethFarmTvl,
+    }
+  }
 
-  const { singleFarmTvl, poolFarmTvl } = coinObj
+  const { singleFarmTvl, poolFarmTvl } = tvlObj[token];
 
   return (
     <div className="farm-container">
       <p>
-        <b>{ `${symbol} farm: ` }</b>{ isTvlByContractFetched ? `$${ singleFarmTvl }` : 'Loading...' }
+        <b>{ `${token} farm: ` }</b>{ isTvlByContractFetched ? `$${ singleFarmTvl }` : 'Loading...' }
       </p>
       <p>
         <b>{ `${pair} farm: ` }</b>{ isTvlByContractFetched ? `$${ poolFarmTvl }` : 'Loading...' }
