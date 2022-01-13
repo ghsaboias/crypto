@@ -94,10 +94,11 @@ function App() {
       rebateDpxFarmTvl: Number(rebateDpxFarmTvl),
       dpxWethFarmTvl: Number(dpxWethFarmTvl),
       rebateDpxWethFarmTvl: Number(rebateDpxWethFarmTvl),
-      dpxSsovTvl,
-      rebateDpxSsovTvl,
-      gohmSsovTvl,
+      dpxSsovTvl: Number(dpxSsovTvl),
+      rebateDpxSsovTvl: Number(rebateDpxSsovTvl),
+      gohmSsovTvl: Number(gohmSsovTvl),
     }
+
     setTvlByContract(tvlByContract);
     setSsovTvl(combinedSsovTvl);
   }
@@ -155,11 +156,11 @@ function App() {
           type="farms"
         />
         <Farm
-          token="dpx"
+          token="DPX"
           tvlByContract={ tvlByContract }
         />
         <Farm
-          token="rdpx"
+          token="rDPX"
           tvlByContract={ tvlByContract }
         />
       </div>
@@ -169,15 +170,15 @@ function App() {
           type="ssov"
         />
         <Ssov
-          token="dpx"
+          token="DPX"
           tvlByContract={ tvlByContract }
         />
         <Ssov
-          token="rdpx"
+          token="rDPX"
           tvlByContract={ tvlByContract }
         />
         <Ssov
-          token="gohm"
+          token="gOHM"
           tvlByContract={ tvlByContract }
         />
       </div>
