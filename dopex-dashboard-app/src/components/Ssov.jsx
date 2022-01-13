@@ -9,9 +9,17 @@ function Ssov({ token, tvlByContract }) {
 
   const isTvlByContractFetched = Object.keys(tvlByContract).length > 0;
 
+  const tvlObj = {
+    DPX: formattedDpxSsovTvl,
+    rDPX: formattedRebateDpxSsovTvl,
+    gOHM: formattedGohmSsovTvl,
+  }
+
   return (
     <div className="ssov-container">
-      
+      <p>
+        <b>{ `${token} SSOV: ` }</b>{ isTvlByContractFetched ? `$${ tvlObj[token] }` : 'Loading...' }
+      </p>
     </div>
   )
 }
